@@ -35,7 +35,7 @@ First version
 # 关于Sinohope WaaS API
 ## 概述
 
-Sinohope 使用基于P-256曲线（又名prime256v1或secp256r1）和算法为SHA256withECDSA的 ECDSA 签名方案进行验证，您在 Sinnohope 开通账户以后，可以在您本地生成公私钥对,参考该URL下Sinnohope提供的例程：https://github.com/sinohope/sinohope-java-api，如有任何疑问，也可以联系我们的工作人员协助您。
+Sinohope 使用基于P-256曲线（又名prime256v1或secp256r1）和算法为SHA256withECDSA的 ECDSA 签名方案进行验证，您在 Sinnohope 开通账户以后，可以在您本地生成公私钥对,参考该URL下Sinnohope提供的例程：<https://github.com/sinohope/sinohope-java-api>，如有任何疑问，也可以联系我们的工作人员协助您。
 
 您可以通过 Sinnohope Web 管理界面录入您的公钥 API Key （可选择类型：查询；所有）。 API Secret 请您自己妥善保管，不要透露给任何人，避免资产损失！ Sinnohope 强烈建议您绑定您的IP地址白名单以及启用“API回调”中的提现确认。
 
@@ -48,15 +48,14 @@ Sinnohope 的 API 请求，除公开的 API 外都需要携带 API Key 以及签
 | key | value | notes |
 | --- | --- | --- |
 | data | 请求参数所组成的字符串值，详见下文 `DATA`部分的具体说明|  |
-| path | 请求URL的PATH部分， 例如https://api.develop.sinohope.com/v1/test/ 为 /v1/test/ |  |
+| path | 请求URL的PATH部分， 例如https://api.develop.sinohope.com/v1/test/ 为 `/v1/test/` |  |
 | timestamp | 访问 API 时的 UNIX EPOCH 时间戳 (精确到毫秒) |  |
 | version | 固定值`1.0.0` |  |
 | "" | 公钥字符串 |  |
 
-对于上述的键值对，按 key 的字母序生序排序后，将所有 `key``value`直接拼接起来（中间没有连接符，其中最后的 公钥字符串没有 key字段）形成最终的待签名数据字符串；连接完成后，使用您本地生成的私钥（privateKey），对数据使用私钥进行 ECDSA 签名（具体算法为 `SHA256withECDSA`），并对二进制结果进行 Hex 编码, 即生成了用于向 API 服务器进行验证的最终签名 （可参考 Sinohope 例程：https://github.com/sinohope/sinohope-java-api）。
+对于上述的键值对，按 key 的字母序生序排序后，将所有 `key` `value`直接拼接起来（中间没有连接符，其中最后的 公钥字符串没有 key字段）形成最终的待签名数据字符串；连接完成后，使用您本地生成的私钥（privateKey），对数据使用私钥进行 ECDSA 签名（具体算法为 `SHA256withECDSA`），并对二进制结果进行 Hex 编码, 即生成了用于向 API 服务器进行验证的最终签名 （可参考 Sinohope 例程：https://github.com/sinohope/sinohope-java-api）。
 
 各部分解释如下：
-
 ## DATA
 如果是GET请求：
 ```html
