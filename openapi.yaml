@@ -7,27 +7,22 @@ info:
 servers:
 - url: /
 tags:
-- name: 查询类接口
-  description: 查询类接口
-- name: 操作类接口
-  description: 操作类接口
-- name: 提现类接口
-  description: 提现类接口
-- name: 任意交易类接口
-  description: 任意交易类接口
+- name: WaaS通用接口
+  description: WaaS通用接口
+- name: MPC查询类接口
+  description: MPC查询类接口
+- name: MPC操作类接口
+  description: MPC操作类接口
+- name: MPC提现类接口
+  description: MPC提现类接口
+- name: MPC任意交易类接口
+  description: MPC任意交易类接口
 paths:
-  /v1/common/mpc/get_supported_chains:
+  /v1/waas/common/get_supported_chains:
     post:
       tags:
-      - 查询类接口
+      - WaaS通用接口
       summary: 查询系统支持链
-      requestBody:
-        content:
-          application/json:
-            schema:
-              title: empty object
-              type: object
-        required: false
       responses:
         200:
           description: successful operation
@@ -38,10 +33,13 @@ paths:
                 properties:
                   code:
                     type: integer
+                    description: ""
                   msg:
                     type: string
+                    description: ""
                   data:
                     type: array
+                    description: ""
                     items:
                       required:
                       - chainName
@@ -56,11 +54,14 @@ paths:
                           description: 链名称 简称 链标识 具有唯一性
                   success:
                     type: boolean
-      x-codegen-request-body-name: root
-  /v1/common/mpc/get_supported_coins:
+                    description: ""
+                  requestId:
+                    type: string
+                    description: ""
+  /v1/waas/common/get_supported_coins:
     post:
       tags:
-      - 查询类接口
+      - WaaS通用接口
       summary: 链支持的币种列表
       requestBody:
         content:
@@ -84,8 +85,10 @@ paths:
                 properties:
                   code:
                     type: integer
+                    description: ""
                   msg:
                     type: string
+                    description: ""
                   data:
                     required:
                     - assetDecimal
@@ -102,13 +105,110 @@ paths:
                       assetDecimal:
                         type: integer
                         description: 币种精度
+                    description: ""
                   success:
                     type: boolean
+                    description: ""
+                  requestId:
+                    type: string
+                    description: ""
       x-codegen-request-body-name: root
-  /v1/waas/wallet/list_wallets:
+  /v1/waas/mpc/wallet/list_addresses:
     post:
       tags:
-      - 查询类接口
+      - MPC查询类接口
+      summary: 查询链地址
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+              - chainSymbol
+              - walletId
+              type: object
+              properties:
+                pageIndex:
+                  type: integer
+                  description: 第几页
+                pageSize:
+                  type: integer
+                  description: |-
+                    *
+                    每页大小
+                walletId:
+                  type: string
+                  description: 钱包id
+                chainSymbol:
+                  type: string
+                  description: 链名称 简称 链标识
+        required: false
+      responses:
+        200:
+          description: successful operation
+          content:
+            '*/*':
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: ""
+                  msg:
+                    type: string
+                    description: ""
+                  data:
+                    type: object
+                    properties:
+                      pageIndex:
+                        type: integer
+                        description: ""
+                      pageSize:
+                        type: integer
+                        description: ""
+                      totalSize:
+                        type: integer
+                        description: ""
+                      list:
+                        type: array
+                        description: ""
+                        items:
+                          required:
+                          - address
+                          - encoding
+                          - hdPath
+                          - id
+                          - pubkey
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              description: 地址id
+                            address:
+                              type: string
+                              description: 链地址
+                            hdPath:
+                              type: string
+                              description: 地址对应的path
+                            encoding:
+                              type: integer
+                              description: |-
+                                链地址
+                                地址类型（例：BTC链：Legacy（P2PKH）格式：0，Native SegWit（Bech32）格式：2）
+                            pubkey:
+                              type: string
+                              description: 公钥
+                    description: ""
+                  success:
+                    type: boolean
+                    description: ""
+                  requestId:
+                    type: string
+                    description: ""
+      x-codegen-request-body-name: root
+  /v1/waas/mpc/wallet/list_wallets:
+    post:
+      tags:
+      - MPC查询类接口
       summary: 查询钱包列表
       requestBody:
         content:
@@ -135,19 +235,25 @@ paths:
                 properties:
                   code:
                     type: integer
+                    description: ""
                   msg:
                     type: string
+                    description: ""
                   data:
                     type: object
                     properties:
                       pageIndex:
                         type: integer
+                        description: ""
                       pageSize:
                         type: integer
+                        description: ""
                       totalSize:
                         type: integer
+                        description: ""
                       list:
                         type: array
+                        description: ""
                         items:
                           type: object
                           properties:
@@ -160,13 +266,18 @@ paths:
                             advancedEnabled:
                               type: integer
                               description: 高级功能开关 0 关 1开
+                    description: ""
                   success:
                     type: boolean
+                    description: ""
+                  requestId:
+                    type: string
+                    description: ""
       x-codegen-request-body-name: root
-  /v1/waas/wallet/list_added_chains:
+  /v1/waas/mpc/wallet/list_added_chains:
     post:
       tags:
-      - 查询类接口
+      - MPC查询类接口
       summary: 查询指定钱包下已添加地址的链及其首个地址信息
       requestBody:
         content:
@@ -190,10 +301,13 @@ paths:
                 properties:
                   code:
                     type: integer
+                    description: ""
                   msg:
                     type: string
+                    description: ""
                   data:
                     type: array
+                    description: ""
                     items:
                       required:
                       - chainSymbol
@@ -232,130 +346,15 @@ paths:
                           description: 地址
                   success:
                     type: boolean
-      x-codegen-request-body-name: root
-  /v1/waas/wallet/list_addresses:
-    post:
-      tags:
-      - 查询类接口
-      summary: 查询链地址
-      requestBody:
-        content:
-          application/json:
-            schema:
-              required:
-              - chainSymbol
-              - walletId
-              type: object
-              properties:
-                pageIndex:
-                  type: integer
-                  description: 第几页
-                pageSize:
-                  type: integer
-                  description: |-
-                    *
-                    每页大小
-                walletId:
-                  type: string
-                  description: 钱包id
-                chainSymbol:
-                  type: string
-                  description: 链名称 简称 链标识
-        required: false
-      responses:
-        200:
-          description: successful operation
-          content:
-            '*/*':
-              schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                  msg:
+                    description: ""
+                  requestId:
                     type: string
-                  data:
-                    type: object
-                    properties:
-                      pageIndex:
-                        type: integer
-                      pageSize:
-                        type: integer
-                      totalSize:
-                        type: integer
-                      list:
-                        type: array
-                        items:
-                          required:
-                          - address
-                          - encoding
-                          - hdPath
-                          - id
-                          - pubkey
-                          type: object
-                          properties:
-                            id:
-                              type: string
-                              description: 地址id
-                            address:
-                              type: string
-                              description: 链地址
-                            hdPath:
-                              type: string
-                              description: 地址对应的path
-                            encoding:
-                              type: integer
-                              description: |-
-                                链地址
-                                地址类型（例：BTC链：Legacy（P2PKH）格式：0，Native SegWit（Bech32）格式：2）
-                            pubkey:
-                              type: string
-                              description: 公钥
-                  success:
-                    type: boolean
+                    description: ""
       x-codegen-request-body-name: root
-  /v1/waas/is_valid_address:
+  /v1/waas/mpc/wallet/get_address_balance:
     post:
       tags:
-      - 查询类接口
-      summary: 检查币种地址是否正确
-      requestBody:
-        content:
-          application/json:
-            schema:
-              required:
-              - address
-              - assetId
-              type: object
-              properties:
-                assetId:
-                  type: string
-                  description: 币种代号 币标识
-                address:
-                  type: string
-                  description: 地址
-        required: false
-      responses:
-        200:
-          description: successful operation
-          content:
-            '*/*':
-              schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                  msg:
-                    type: string
-                  data:
-                    type: boolean
-                  success:
-                    type: boolean
-      x-codegen-request-body-name: root
-  /v1/waas/wallet/get_address_balance:
-    post:
-      tags:
-      - 查询类接口
+      - MPC查询类接口
       summary: 查询地址余额信息
       requestBody:
         content:
@@ -387,10 +386,13 @@ paths:
                 properties:
                   code:
                     type: integer
+                    description: ""
                   msg:
                     type: string
+                    description: ""
                   data:
                     type: array
+                    description: ""
                     items:
                       required:
                       - assetId
@@ -409,11 +411,15 @@ paths:
                           description: 金额
                   success:
                     type: boolean
+                    description: ""
+                  requestId:
+                    type: string
+                    description: ""
       x-codegen-request-body-name: root
-  /v1/waas/wallet/get_wallet_balance:
+  /v1/waas/mpc/wallet/get_wallet_balance:
     post:
       tags:
-      - 查询类接口
+      - MPC查询类接口
       summary: 查询指定钱包所有币种的余额信息
       requestBody:
         content:
@@ -445,19 +451,25 @@ paths:
                 properties:
                   code:
                     type: integer
+                    description: ""
                   msg:
                     type: string
+                    description: ""
                   data:
                     type: object
                     properties:
                       pageIndex:
                         type: integer
+                        description: ""
                       pageSize:
                         type: integer
+                        description: ""
                       totalSize:
                         type: integer
+                        description: ""
                       list:
                         type: array
+                        description: ""
                         items:
                           required:
                           - assetId
@@ -474,13 +486,18 @@ paths:
                             balance:
                               type: string
                               description: 金额
+                    description: ""
                   success:
                     type: boolean
+                    description: ""
+                  requestId:
+                    type: string
+                    description: ""
       x-codegen-request-body-name: root
-  /v1/waas/wallet/white_address_check:
+  /v1/waas/mpc/wallet/white_address_check:
     post:
       tags:
-      - 查询类接口
+      - MPC查询类接口
       summary: 白名单命中校验
       requestBody:
         content:
@@ -508,17 +525,24 @@ paths:
                 properties:
                   code:
                     type: integer
+                    description: ""
                   msg:
                     type: string
+                    description: ""
                   data:
                     type: boolean
+                    description: ""
                   success:
                     type: boolean
+                    description: ""
+                  requestId:
+                    type: string
+                    description: ""
       x-codegen-request-body-name: root
-  /v1/waas/transaction/list_transactions:
+  /v1/waas/mpc/transaction/list_transactions:
     post:
       tags:
-      - 查询类接口
+      - MPC查询类接口
       summary: 交易列表
       requestBody:
         content:
@@ -529,6 +553,30 @@ paths:
               - chainSymbol
               type: object
               properties:
+                pageIndex:
+                  type: integer
+                  description: 第几页
+                pageSize:
+                  type: integer
+                  description: 每页显示几条
+                offset:
+                  type: integer
+                  description: 偏移量
+                selectVaultList:
+                  type: array
+                  description: ""
+                  items:
+                    type: integer
+                submitAndApproveVaultList:
+                  type: array
+                  description: ""
+                  items:
+                    type: integer
+                submitVaultList:
+                  type: array
+                  description: ""
+                  items:
+                    type: integer
                 address:
                   type: string
                   description: 链地址
@@ -547,27 +595,6 @@ paths:
                 assetId:
                   type: string
                   description: 资产id
-                pageIndex:
-                  type: integer
-                  description: 第几页
-                pageSize:
-                  type: integer
-                  description: 每页显示几条
-                offset:
-                  type: integer
-                  description: 偏移量
-                selectVaultList:
-                  type: array
-                  items:
-                    type: integer
-                submitAndApproveVaultList:
-                  type: array
-                  items:
-                    type: integer
-                submitVaultList:
-                  type: array
-                  items:
-                    type: integer
         required: false
       responses:
         200:
@@ -579,15 +606,43 @@ paths:
                 properties:
                   pageIndex:
                     type: integer
+                    description: ""
                   pageSize:
                     type: integer
+                    description: ""
                   totalSize:
                     type: integer
+                    description: ""
                   list:
                     type: array
+                    description: ""
                     items:
                       type: object
                       properties:
+                        pageIndex:
+                          type: integer
+                          description: 第几页
+                        pageSize:
+                          type: integer
+                          description: 每页显示几条
+                        offset:
+                          type: integer
+                          description: 偏移量
+                        selectVaultList:
+                          type: array
+                          description: ""
+                          items:
+                            type: integer
+                        submitAndApproveVaultList:
+                          type: array
+                          description: ""
+                          items:
+                            type: integer
+                        submitVaultList:
+                          type: array
+                          description: ""
+                          items:
+                            type: integer
                         sinoId:
                           type: string
                           description: sinoId
@@ -723,6 +778,7 @@ paths:
                                   amount:
                                     type: string
                                     description: 交易金额
+                          description: ""
                         chainSymbol:
                           type: string
                           description: 链简称
@@ -732,33 +788,12 @@ paths:
                         decimals:
                           type: integer
                           description: 当前资产的精度
-                        pageIndex:
-                          type: integer
-                          description: 第几页
-                        pageSize:
-                          type: integer
-                          description: 每页显示几条
-                        offset:
-                          type: integer
-                          description: 偏移量
-                        selectVaultList:
-                          type: array
-                          items:
-                            type: integer
-                        submitAndApproveVaultList:
-                          type: array
-                          items:
-                            type: integer
-                        submitVaultList:
-                          type: array
-                          items:
-                            type: integer
                 description: ""
       x-codegen-request-body-name: root
-  /v1/waas/transaction/transactions_by_request_ids:
+  /v1/waas/mpc/transaction/transactions_by_request_ids:
     post:
       tags:
-      - 查询类接口
+      - MPC查询类接口
       summary: 根据request_id查询交易列表
       requestBody:
         content:
@@ -782,13 +817,40 @@ paths:
                 properties:
                   code:
                     type: integer
+                    description: ""
                   msg:
                     type: string
+                    description: ""
                   data:
                     type: array
+                    description: ""
                     items:
                       type: object
                       properties:
+                        pageIndex:
+                          type: integer
+                          description: 第几页
+                        pageSize:
+                          type: integer
+                          description: 每页显示几条
+                        offset:
+                          type: integer
+                          description: 偏移量
+                        selectVaultList:
+                          type: array
+                          description: ""
+                          items:
+                            type: integer
+                        submitAndApproveVaultList:
+                          type: array
+                          description: ""
+                          items:
+                            type: integer
+                        submitVaultList:
+                          type: array
+                          description: ""
+                          items:
+                            type: integer
                         sinoId:
                           type: string
                           description: sinoId
@@ -924,6 +986,7 @@ paths:
                                   amount:
                                     type: string
                                     description: 交易金额
+                          description: ""
                         chainSymbol:
                           type: string
                           description: 链简称
@@ -933,35 +996,18 @@ paths:
                         decimals:
                           type: integer
                           description: 当前资产的精度
-                        pageIndex:
-                          type: integer
-                          description: 第几页
-                        pageSize:
-                          type: integer
-                          description: 每页显示几条
-                        offset:
-                          type: integer
-                          description: 偏移量
-                        selectVaultList:
-                          type: array
-                          items:
-                            type: integer
-                        submitAndApproveVaultList:
-                          type: array
-                          items:
-                            type: integer
-                        submitVaultList:
-                          type: array
-                          items:
-                            type: integer
                   success:
                     type: boolean
+                    description: ""
+                  requestId:
+                    type: string
+                    description: ""
                 description: ""
       x-codegen-request-body-name: root
-  /v1/waas/transaction/transactions_by_sinoId:
+  /v1/waas/mpc/transaction/transactions_by_sinoId:
     post:
       tags:
-      - 查询类接口
+      - MPC查询类接口
       summary: 根据sinoId查询交易列表
       requestBody:
         content:
@@ -985,13 +1031,40 @@ paths:
                 properties:
                   code:
                     type: integer
+                    description: ""
                   msg:
                     type: string
+                    description: ""
                   data:
                     type: array
+                    description: ""
                     items:
                       type: object
                       properties:
+                        pageIndex:
+                          type: integer
+                          description: 第几页
+                        pageSize:
+                          type: integer
+                          description: 每页显示几条
+                        offset:
+                          type: integer
+                          description: 偏移量
+                        selectVaultList:
+                          type: array
+                          description: ""
+                          items:
+                            type: integer
+                        submitAndApproveVaultList:
+                          type: array
+                          description: ""
+                          items:
+                            type: integer
+                        submitVaultList:
+                          type: array
+                          description: ""
+                          items:
+                            type: integer
                         sinoId:
                           type: string
                           description: sinoId
@@ -1127,6 +1200,7 @@ paths:
                                   amount:
                                     type: string
                                     description: 交易金额
+                          description: ""
                         chainSymbol:
                           type: string
                           description: 链简称
@@ -1136,35 +1210,18 @@ paths:
                         decimals:
                           type: integer
                           description: 当前资产的精度
-                        pageIndex:
-                          type: integer
-                          description: 第几页
-                        pageSize:
-                          type: integer
-                          description: 每页显示几条
-                        offset:
-                          type: integer
-                          description: 偏移量
-                        selectVaultList:
-                          type: array
-                          items:
-                            type: integer
-                        submitAndApproveVaultList:
-                          type: array
-                          items:
-                            type: integer
-                        submitVaultList:
-                          type: array
-                          items:
-                            type: integer
                   success:
                     type: boolean
+                    description: ""
+                  requestId:
+                    type: string
+                    description: ""
                 description: ""
       x-codegen-request-body-name: root
-  /v1/waas/transaction/transactions_by_tx_hash:
+  /v1/waas/mpc/transaction/transactions_by_tx_hash:
     post:
       tags:
-      - 查询类接口
+      - MPC查询类接口
       summary: 根据txHash查询交易列表
       requestBody:
         content:
@@ -1188,13 +1245,40 @@ paths:
                 properties:
                   code:
                     type: integer
+                    description: ""
                   msg:
                     type: string
+                    description: ""
                   data:
                     type: array
+                    description: ""
                     items:
                       type: object
                       properties:
+                        pageIndex:
+                          type: integer
+                          description: 第几页
+                        pageSize:
+                          type: integer
+                          description: 每页显示几条
+                        offset:
+                          type: integer
+                          description: 偏移量
+                        selectVaultList:
+                          type: array
+                          description: ""
+                          items:
+                            type: integer
+                        submitAndApproveVaultList:
+                          type: array
+                          description: ""
+                          items:
+                            type: integer
+                        submitVaultList:
+                          type: array
+                          description: ""
+                          items:
+                            type: integer
                         sinoId:
                           type: string
                           description: sinoId
@@ -1330,6 +1414,7 @@ paths:
                                   amount:
                                     type: string
                                     description: 交易金额
+                          description: ""
                         chainSymbol:
                           type: string
                           description: 链简称
@@ -1339,35 +1424,18 @@ paths:
                         decimals:
                           type: integer
                           description: 当前资产的精度
-                        pageIndex:
-                          type: integer
-                          description: 第几页
-                        pageSize:
-                          type: integer
-                          description: 每页显示几条
-                        offset:
-                          type: integer
-                          description: 偏移量
-                        selectVaultList:
-                          type: array
-                          items:
-                            type: integer
-                        submitAndApproveVaultList:
-                          type: array
-                          items:
-                            type: integer
-                        submitVaultList:
-                          type: array
-                          items:
-                            type: integer
                   success:
                     type: boolean
+                    description: ""
+                  requestId:
+                    type: string
+                    description: ""
                 description: ""
       x-codegen-request-body-name: root
-  /v1/waas/tssnode/list_mpc_requests:
+  /v1/waas/mpc/tssnode/list_mpc_requests:
     post:
       tags:
-      - 查询类接口
+      - MPC查询类接口
       summary: 查询mpc协议执行记录
       requestBody:
         content:
@@ -1403,10 +1471,13 @@ paths:
                 properties:
                   code:
                     type: integer
+                    description: ""
                   msg:
                     type: string
+                    description: ""
                   data:
                     type: array
+                    description: ""
                     items:
                       type: object
                       properties:
@@ -1436,20 +1507,17 @@ paths:
                           description: 是否成功
                   success:
                     type: boolean
+                    description: ""
+                  requestId:
+                    type: string
+                    description: ""
                 description: ""
       x-codegen-request-body-name: root
-  /v1/waas/tssnode/status:
+  /v1/waas/mpc/tssnode/status:
     post:
       tags:
-      - 查询类接口
+      - MPC查询类接口
       summary: 查询tss node状态
-      requestBody:
-        content:
-          application/json:
-            schema:
-              title: empty object
-              type: object
-        required: false
       responses:
         200:
           description: successful operation
@@ -1460,8 +1528,10 @@ paths:
                 properties:
                   code:
                     type: integer
+                    description: ""
                   msg:
                     type: string
+                    description: ""
                   data:
                     type: object
                     properties:
@@ -1471,14 +1541,18 @@ paths:
                       onlineStatus:
                         type: string
                         description: '在线状态 0 :offline 1: online'
+                    description: ""
                   success:
                     type: boolean
+                    description: ""
+                  requestId:
+                    type: string
+                    description: ""
                 description: ""
-      x-codegen-request-body-name: root
-  /v1/waas/create_wallets:
+  /v1/waas/mpc/create_wallets:
     post:
       tags:
-      - 操作类接口
+      - MPC操作类接口
       summary: 创建钱包
       requestBody:
         content:
@@ -1517,10 +1591,13 @@ paths:
                 properties:
                   code:
                     type: integer
+                    description: ""
                   msg:
                     type: string
+                    description: ""
                   data:
                     type: array
+                    description: ""
                     items:
                       type: object
                       properties:
@@ -1535,11 +1612,15 @@ paths:
                           description: 高级功能开关 0 关 1开
                   success:
                     type: boolean
+                    description: ""
+                  requestId:
+                    type: string
+                    description: ""
       x-codegen-request-body-name: root
-  /v1/waas/wallet/generate_chain_addresses:
+  /v1/waas/mpc/wallet/generate_chain_addresses:
     post:
       tags:
-      - 操作类接口
+      - MPC操作类接口
       summary: 生成链地址
       requestBody:
         content:
@@ -1570,10 +1651,13 @@ paths:
                 properties:
                   code:
                     type: integer
+                    description: ""
                   msg:
                     type: string
+                    description: ""
                   data:
                     type: array
+                    description: ""
                     items:
                       required:
                       - address
@@ -1602,13 +1686,17 @@ paths:
                           description: 公钥
                   success:
                     type: boolean
+                    description: ""
+                  requestId:
+                    type: string
+                    description: ""
       x-codegen-request-body-name: root
-  /v1/waas/wallet/advance/gen_address_by_path:
+  /v1/waas/mpc/wallet/advance/gen_address_by_path:
     post:
       tags:
-      - 操作类接口
+      - MPC操作类接口
       summary: 根据指定的路径创建地址
-      description: 直接对指定数据进行签名。此接口为高级功能接口，需要钱包组 以及 钱包 均开启“高级功能” 才可用
+      description: <p> 直接对指定数据进行签名。此接口为高级功能接口，需要钱包组 以及 钱包 均开启“高级功能” 才可用 </>
       requestBody:
         content:
           application/json:
@@ -1645,8 +1733,10 @@ paths:
                 properties:
                   code:
                     type: integer
+                    description: ""
                   msg:
                     type: string
+                    description: ""
                   data:
                     required:
                     - address
@@ -1673,13 +1763,18 @@ paths:
                       pubkey:
                         type: string
                         description: 公钥
+                    description: ""
                   success:
                     type: boolean
+                    description: ""
+                  requestId:
+                    type: string
+                    description: ""
       x-codegen-request-body-name: root
-  /v1/waas/wallet/advance/update_wallet:
+  /v1/waas/mpc/wallet/advance/update_wallet:
     post:
       tags:
-      - 操作类接口
+      - MPC操作类接口
       summary: 更新钱包属性（高级功能开启、关闭）
       requestBody:
         content:
@@ -1707,17 +1802,384 @@ paths:
                 properties:
                   code:
                     type: integer
+                    description: ""
                   msg:
                     type: string
+                    description: ""
                   data:
                     type: boolean
+                    description: ""
                   success:
                     type: boolean
+                    description: ""
+                  requestId:
+                    type: string
+                    description: ""
       x-codegen-request-body-name: root
-  /v1/waas/transaction/create_transfer:
+  /v1/waas/mpc/transaction/cancel_transaction:
     post:
       tags:
-      - 提现类接口
+      - MPC提现类接口
+      summary: 交易取消
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+              - assetId
+              - chainSymbol
+              - requestId
+              type: object
+              properties:
+                requestId:
+                  type: string
+                  description: 请求方的requestId
+                chainSymbol:
+                  type: string
+                  description: 链标识
+                assetId:
+                  type: string
+                  description: 资产id
+        required: false
+      responses:
+        200:
+          description: successful operation
+          content:
+            '*/*':
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: ""
+                  msg:
+                    type: string
+                    description: ""
+                  data:
+                    type: object
+                    properties:
+                      sinoId:
+                        type: string
+                        description: sinoId
+                      network:
+                        type: string
+                        description: 网络
+                      txType:
+                        type: string
+                        description: 交易类型
+                      hasToBeSigned:
+                        type: string
+                        description: 签名前信息
+                      data:
+                        type: object
+                        properties:
+                          asset:
+                            type: string
+                            description: 资产id
+                          decimal:
+                            type: integer
+                            description: 精度
+                          currentTime:
+                            type: integer
+                            description: 当前时间
+                          expireTime:
+                            type: integer
+                            description: 有效时间
+                          expireBlockHeight:
+                            type: integer
+                            description: 交易有效高度
+                          referBlockHeight:
+                            type: integer
+                            description: refer 高度
+                          from:
+                            type: string
+                            description: from地址
+                          fromTag:
+                            type: string
+                            description: from地址tag
+                          to:
+                            type: string
+                            description: to地址
+                          toTag:
+                            type: string
+                            description: to地址tag
+                          amount:
+                            type: string
+                            description: 金额：最小精度的整数值 例如：1230000000000000000
+                          fee:
+                            type: string
+                            description: 手续费
+                          txType:
+                            type: integer
+                            description: 交易类型
+                          feeAsset:
+                            type: string
+                            description: 手续费资产
+                          feePrice:
+                            type: string
+                            description: 手续费Price
+                          feeStep:
+                            type: string
+                            description: 手续费Step
+                          chainId:
+                            type: string
+                            description: 链id
+                          nonce:
+                            type: string
+                            description: 交易nonce
+                          vin:
+                            type: array
+                            description: utxo input
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                  description: 交易id
+                                hash:
+                                  type: string
+                                  description: 交易hash
+                                voutIndex:
+                                  type: string
+                                  description: 交易index
+                                address:
+                                  type: string
+                                  description: 交易地址
+                                amount:
+                                  type: string
+                                  description: 交易金额
+                                asset:
+                                  type: string
+                                  description: 交易资产
+                          vout:
+                            type: array
+                            description: 交易output
+                            items:
+                              type: object
+                              properties:
+                                asset:
+                                  type: string
+                                  description: 交易资产
+                                address:
+                                  type: string
+                                  description: 交易地址
+                                amount:
+                                  type: string
+                                  description: 交易金额
+                          funName:
+                            type: string
+                            description: ""
+                          params:
+                            type: array
+                            description: ""
+                            items:
+                              type: string
+                        description: 签名交易信息
+                      suffixPath:
+                        type: string
+                        description: hdpath
+                      cryptography:
+                        type: string
+                        description: ""
+                    description: ""
+                  success:
+                    type: boolean
+                    description: ""
+                  requestId:
+                    type: string
+                    description: ""
+                description: ""
+      x-codegen-request-body-name: root
+  /v1/waas/mpc/transaction/speedup_transaction:
+    post:
+      tags:
+      - MPC提现类接口
+      summary: 发起加速交易
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+              - assetId
+              - chainSymbol
+              - fee
+              - gasLimit
+              - gasPrice
+              - requestId
+              type: object
+              properties:
+                requestId:
+                  type: string
+                  description: 请求方交易的requestId
+                gasLimit:
+                  type: string
+                  description: 交易gasLimit，燃料上限，ETH 账号模型适用
+                gasPrice:
+                  type: string
+                  description: 交易gasPrice，燃料价格，ETH 账号模型适用，单位为 wei
+                fee:
+                  type: string
+                  description: 手续费 对于 UTXO 类的非EVM兼容链的交易,自设置fee, 如参数为 UTXO 资产转账提供，表示每字节的手续费
+                chainSymbol:
+                  type: string
+                  description: 链标识
+                assetId:
+                  type: string
+                  description: 资产id
+        required: false
+      responses:
+        200:
+          description: successful operation
+          content:
+            '*/*':
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: ""
+                  msg:
+                    type: string
+                    description: ""
+                  data:
+                    type: object
+                    properties:
+                      sinoId:
+                        type: string
+                        description: sinoId
+                      network:
+                        type: string
+                        description: 网络
+                      txType:
+                        type: string
+                        description: 交易类型
+                      hasToBeSigned:
+                        type: string
+                        description: 签名前信息
+                      data:
+                        type: object
+                        properties:
+                          asset:
+                            type: string
+                            description: 资产id
+                          decimal:
+                            type: integer
+                            description: 精度
+                          currentTime:
+                            type: integer
+                            description: 当前时间
+                          expireTime:
+                            type: integer
+                            description: 有效时间
+                          expireBlockHeight:
+                            type: integer
+                            description: 交易有效高度
+                          referBlockHeight:
+                            type: integer
+                            description: refer 高度
+                          from:
+                            type: string
+                            description: from地址
+                          fromTag:
+                            type: string
+                            description: from地址tag
+                          to:
+                            type: string
+                            description: to地址
+                          toTag:
+                            type: string
+                            description: to地址tag
+                          amount:
+                            type: string
+                            description: 金额：最小精度的整数值 例如：1230000000000000000
+                          fee:
+                            type: string
+                            description: 手续费
+                          txType:
+                            type: integer
+                            description: 交易类型
+                          feeAsset:
+                            type: string
+                            description: 手续费资产
+                          feePrice:
+                            type: string
+                            description: 手续费Price
+                          feeStep:
+                            type: string
+                            description: 手续费Step
+                          chainId:
+                            type: string
+                            description: 链id
+                          nonce:
+                            type: string
+                            description: 交易nonce
+                          vin:
+                            type: array
+                            description: utxo input
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                  description: 交易id
+                                hash:
+                                  type: string
+                                  description: 交易hash
+                                voutIndex:
+                                  type: string
+                                  description: 交易index
+                                address:
+                                  type: string
+                                  description: 交易地址
+                                amount:
+                                  type: string
+                                  description: 交易金额
+                                asset:
+                                  type: string
+                                  description: 交易资产
+                          vout:
+                            type: array
+                            description: 交易output
+                            items:
+                              type: object
+                              properties:
+                                asset:
+                                  type: string
+                                  description: 交易资产
+                                address:
+                                  type: string
+                                  description: 交易地址
+                                amount:
+                                  type: string
+                                  description: 交易金额
+                          funName:
+                            type: string
+                            description: ""
+                          params:
+                            type: array
+                            description: ""
+                            items:
+                              type: string
+                        description: 签名交易信息
+                      suffixPath:
+                        type: string
+                        description: hdpath
+                      cryptography:
+                        type: string
+                        description: ""
+                    description: ""
+                  success:
+                    type: boolean
+                    description: ""
+                  requestId:
+                    type: string
+                    description: ""
+                description: ""
+      x-codegen-request-body-name: root
+  /v1/waas/mpc/transaction/create_transfer:
+    post:
+      tags:
+      - MPC提现类接口
       summary: 发起转账交易
       requestBody:
         content:
@@ -1779,8 +2241,10 @@ paths:
                 properties:
                   code:
                     type: integer
+                    description: ""
                   msg:
                     type: string
+                    description: ""
                   data:
                     type: object
                     properties:
@@ -1894,8 +2358,10 @@ paths:
                                   description: 交易金额
                           funName:
                             type: string
+                            description: ""
                           params:
                             type: array
+                            description: ""
                             items:
                               type: string
                         description: 签名交易信息
@@ -1904,354 +2370,20 @@ paths:
                         description: hdpath
                       cryptography:
                         type: string
+                        description: ""
+                    description: ""
                   success:
                     type: boolean
-                description: ""
-      x-codegen-request-body-name: root
-  /v1/waas/transaction/speedup_transaction:
-    post:
-      tags:
-      - 提现类接口
-      summary: 发起加速交易
-      requestBody:
-        content:
-          application/json:
-            schema:
-              required:
-              - assetId
-              - chainSymbol
-              - fee
-              - gasLimit
-              - gasPrice
-              - requestId
-              type: object
-              properties:
-                requestId:
-                  type: string
-                  description: 请求方交易的requestId
-                gasLimit:
-                  type: string
-                  description: 交易gasLimit，燃料上限，ETH 账号模型适用
-                gasPrice:
-                  type: string
-                  description: 交易gasPrice，燃料价格，ETH 账号模型适用，单位为 wei
-                fee:
-                  type: string
-                  description: 手续费 对于 UTXO 类的非EVM兼容链的交易,自设置fee, 如参数为 UTXO 资产转账提供，表示每字节的手续费
-                chainSymbol:
-                  type: string
-                  description: 链标识
-                assetId:
-                  type: string
-                  description: 资产id
-        required: false
-      responses:
-        200:
-          description: successful operation
-          content:
-            '*/*':
-              schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                  msg:
+                    description: ""
+                  requestId:
                     type: string
-                  data:
-                    type: object
-                    properties:
-                      sinoId:
-                        type: string
-                        description: sinoId
-                      network:
-                        type: string
-                        description: 网络
-                      txType:
-                        type: string
-                        description: 交易类型
-                      hasToBeSigned:
-                        type: string
-                        description: 签名前信息
-                      data:
-                        type: object
-                        properties:
-                          asset:
-                            type: string
-                            description: 资产id
-                          decimal:
-                            type: integer
-                            description: 精度
-                          currentTime:
-                            type: integer
-                            description: 当前时间
-                          expireTime:
-                            type: integer
-                            description: 有效时间
-                          expireBlockHeight:
-                            type: integer
-                            description: 交易有效高度
-                          referBlockHeight:
-                            type: integer
-                            description: refer 高度
-                          from:
-                            type: string
-                            description: from地址
-                          fromTag:
-                            type: string
-                            description: from地址tag
-                          to:
-                            type: string
-                            description: to地址
-                          toTag:
-                            type: string
-                            description: to地址tag
-                          amount:
-                            type: string
-                            description: 金额：最小精度的整数值 例如：1230000000000000000
-                          fee:
-                            type: string
-                            description: 手续费
-                          txType:
-                            type: integer
-                            description: 交易类型
-                          feeAsset:
-                            type: string
-                            description: 手续费资产
-                          feePrice:
-                            type: string
-                            description: 手续费Price
-                          feeStep:
-                            type: string
-                            description: 手续费Step
-                          chainId:
-                            type: string
-                            description: 链id
-                          nonce:
-                            type: string
-                            description: 交易nonce
-                          vin:
-                            type: array
-                            description: utxo input
-                            items:
-                              type: object
-                              properties:
-                                id:
-                                  type: integer
-                                  description: 交易id
-                                hash:
-                                  type: string
-                                  description: 交易hash
-                                voutIndex:
-                                  type: string
-                                  description: 交易index
-                                address:
-                                  type: string
-                                  description: 交易地址
-                                amount:
-                                  type: string
-                                  description: 交易金额
-                                asset:
-                                  type: string
-                                  description: 交易资产
-                          vout:
-                            type: array
-                            description: 交易output
-                            items:
-                              type: object
-                              properties:
-                                asset:
-                                  type: string
-                                  description: 交易资产
-                                address:
-                                  type: string
-                                  description: 交易地址
-                                amount:
-                                  type: string
-                                  description: 交易金额
-                          funName:
-                            type: string
-                          params:
-                            type: array
-                            items:
-                              type: string
-                        description: 签名交易信息
-                      suffixPath:
-                        type: string
-                        description: hdpath
-                      cryptography:
-                        type: string
-                  success:
-                    type: boolean
+                    description: ""
                 description: ""
       x-codegen-request-body-name: root
-  /v1/waas/transaction/cancel_transaction:
+  /v1/waas/mpc/transaction/create_transaction:
     post:
       tags:
-      - 提现类接口
-      summary: 交易取消
-      requestBody:
-        content:
-          application/json:
-            schema:
-              required:
-              - assetId
-              - chainSymbol
-              - requestId
-              type: object
-              properties:
-                requestId:
-                  type: string
-                  description: 请求方的requestId
-                chainSymbol:
-                  type: string
-                  description: 链标识
-                assetId:
-                  type: string
-                  description: 资产id
-        required: false
-      responses:
-        200:
-          description: successful operation
-          content:
-            '*/*':
-              schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                  msg:
-                    type: string
-                  data:
-                    type: object
-                    properties:
-                      sinoId:
-                        type: string
-                        description: sinoId
-                      network:
-                        type: string
-                        description: 网络
-                      txType:
-                        type: string
-                        description: 交易类型
-                      hasToBeSigned:
-                        type: string
-                        description: 签名前信息
-                      data:
-                        type: object
-                        properties:
-                          asset:
-                            type: string
-                            description: 资产id
-                          decimal:
-                            type: integer
-                            description: 精度
-                          currentTime:
-                            type: integer
-                            description: 当前时间
-                          expireTime:
-                            type: integer
-                            description: 有效时间
-                          expireBlockHeight:
-                            type: integer
-                            description: 交易有效高度
-                          referBlockHeight:
-                            type: integer
-                            description: refer 高度
-                          from:
-                            type: string
-                            description: from地址
-                          fromTag:
-                            type: string
-                            description: from地址tag
-                          to:
-                            type: string
-                            description: to地址
-                          toTag:
-                            type: string
-                            description: to地址tag
-                          amount:
-                            type: string
-                            description: 金额：最小精度的整数值 例如：1230000000000000000
-                          fee:
-                            type: string
-                            description: 手续费
-                          txType:
-                            type: integer
-                            description: 交易类型
-                          feeAsset:
-                            type: string
-                            description: 手续费资产
-                          feePrice:
-                            type: string
-                            description: 手续费Price
-                          feeStep:
-                            type: string
-                            description: 手续费Step
-                          chainId:
-                            type: string
-                            description: 链id
-                          nonce:
-                            type: string
-                            description: 交易nonce
-                          vin:
-                            type: array
-                            description: utxo input
-                            items:
-                              type: object
-                              properties:
-                                id:
-                                  type: integer
-                                  description: 交易id
-                                hash:
-                                  type: string
-                                  description: 交易hash
-                                voutIndex:
-                                  type: string
-                                  description: 交易index
-                                address:
-                                  type: string
-                                  description: 交易地址
-                                amount:
-                                  type: string
-                                  description: 交易金额
-                                asset:
-                                  type: string
-                                  description: 交易资产
-                          vout:
-                            type: array
-                            description: 交易output
-                            items:
-                              type: object
-                              properties:
-                                asset:
-                                  type: string
-                                  description: 交易资产
-                                address:
-                                  type: string
-                                  description: 交易地址
-                                amount:
-                                  type: string
-                                  description: 交易金额
-                          funName:
-                            type: string
-                          params:
-                            type: array
-                            items:
-                              type: string
-                        description: 签名交易信息
-                      suffixPath:
-                        type: string
-                        description: hdpath
-                      cryptography:
-                        type: string
-                  success:
-                    type: boolean
-                description: ""
-      x-codegen-request-body-name: root
-  /v1/waas/transaction/create_transaction:
-    post:
-      tags:
-      - 任意交易类接口
+      - MPC任意交易类接口
       summary: 发起任意交易
       requestBody:
         content:
@@ -2317,8 +2449,10 @@ paths:
                 properties:
                   code:
                     type: integer
+                    description: ""
                   msg:
                     type: string
+                    description: ""
                   data:
                     type: object
                     properties:
@@ -2432,8 +2566,10 @@ paths:
                                   description: 交易金额
                           funName:
                             type: string
+                            description: ""
                           params:
                             type: array
+                            description: ""
                             items:
                               type: string
                         description: 签名交易信息
@@ -2442,16 +2578,22 @@ paths:
                         description: hdpath
                       cryptography:
                         type: string
+                        description: ""
+                    description: ""
                   success:
                     type: boolean
+                    description: ""
+                  requestId:
+                    type: string
+                    description: ""
                 description: ""
       x-codegen-request-body-name: root
-  /v1/waas/wallet/advance/sign_raw_data:
+  /v1/waas/mpc/wallet/advance/sign_raw_data:
     post:
       tags:
-      - 任意交易类接口
+      - MPC任意交易类接口
       summary: 原始数据签名
-      description: 对原始数据进行签名
+      description: <p>对原始数据进行签名</>
       requestBody:
         content:
           application/json:
@@ -2486,21 +2628,28 @@ paths:
                 properties:
                   code:
                     type: integer
+                    description: ""
                   msg:
                     type: string
+                    description: ""
                   data:
                     type: object
                     properties:
                       sinoId:
                         type: string
                         description: sinohope Id
+                    description: ""
                   success:
                     type: boolean
+                    description: ""
+                  requestId:
+                    type: string
+                    description: ""
       x-codegen-request-body-name: root
-  /v1/waas/web3/sign_message:
+  /v1/waas/mpc/web3/sign_message:
     post:
       tags:
-      - 任意交易类接口
+      - MPC任意交易类接口
       summary: 按已知的规范签名消息（EIP-191、 EIP-712）
       requestBody:
         content:
@@ -2544,8 +2693,10 @@ paths:
                 properties:
                   code:
                     type: integer
+                    description: ""
                   msg:
                     type: string
+                    description: ""
                   data:
                     type: object
                     properties:
@@ -2555,8 +2706,13 @@ paths:
                       message_hash:
                         type: string
                         description: 签名信息
+                    description: ""
                   success:
                     type: boolean
+                    description: ""
+                  requestId:
+                    type: string
+                    description: ""
                 description: ""
       x-codegen-request-body-name: root
 components: {}
