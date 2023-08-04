@@ -48,12 +48,12 @@ Sinnohope 的 API 请求，除公开的 API 外都需要携带 API Key 以及签
 | key | value | notes |
 | --- | --- | --- |
 | data | 请求参数所组成的字符串值，详见下文 `DATA`部分的具体说明|  |
-| path | 请求URL的PATH部分， 例如https://api.develop.sinohope.com/v1/test/ 为 `/v1/test/` |  |
+| path | 请求URL的PATH部分， 例如`https://api.develop.sinohope.com/v1/test/`的PATH 为 `/v1/test/` |  |
 | timestamp | 访问 API 时的 UNIX EPOCH 时间戳 (精确到毫秒) |  |
 | version | 固定值`1.0.0` |  |
 | "" | 公钥字符串 |  |
 
-对于上述的键值对，按 key 的字母序生序排序后，将所有 `key` `value`直接拼接起来（中间没有连接符，其中最后的 公钥字符串没有 key字段）形成最终的待签名数据字符串；连接完成后，使用您本地生成的私钥（privateKey），对数据使用私钥进行 ECDSA 签名（具体算法为 `SHA256withECDSA`），并对二进制结果进行 Hex 编码, 即生成了用于向 API 服务器进行验证的最终签名 （可参考 Sinohope 例程：https://github.com/sinohope/sinohope-java-api）。
+对于上述的键值对，按 key 的字母序生序排序后，将所有 `key` `value`直接拼接起来（中间没有连接符，其中最后的 公钥字符串没有 key字段）形成最终的待签名数据字符串；连接完成后，使用您本地生成的私钥（privateKey），对数据使用私钥进行 ECDSA 签名（具体算法为 `SHA256withECDSA`），并对二进制结果进行 Hex 编码, 即生成了用于向 API 服务器进行验证的最终签名 （可参考 Sinohope 例程：<https://github.com/sinohope/sinohope-java-api>）。
 
 各部分解释如下：
 ## DATA
@@ -129,7 +129,7 @@ BIZ-API-NONCE
 获取header方式如下：
 BIZ-API-KEY：您本地获取的公钥publicKey作为apiKey。
 
-BIZ-API-SIGNATURE：先组装成待签名数据后对数据使用私钥进行 ECDSA 签名，并对二进制结果进行 Hex 编码, 即生成了用于向 API 服务器进行验证的最终签名 （可参考 Sinohope 例程：https://github.com/sinohope/sinohope-java-api)。
+BIZ-API-SIGNATURE：先组装成待签名数据后对数据使用私钥进行 ECDSA 签名，并对二进制结果进行 Hex 编码, 即生成了用于向 API 服务器进行验证的最终签名 （可参考 Sinohope 例程：<https://github.com/sinohope/sinohope-java-api>)。
 
 BIZ-API-NONCE：访问 API 时的 UNIX EPOCH 时间戳 (精确到毫秒)。
 
