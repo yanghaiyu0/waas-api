@@ -5,23 +5,23 @@ info:
   description:
     $ref: description.md
 servers:
-- url: /
+  - url: /
 tags:
-- name: WaaS通用接口
-  description: WaaS通用接口
-- name: MPC查询类接口
-  description: MPC查询类接口
-- name: MPC操作类接口
-  description: MPC操作类接口
-- name: MPC提现类接口
-  description: MPC提现类接口
-- name: MPC任意交易类接口
-  description: MPC任意交易类接口
+  - name: WaaS通用接口
+    description: WaaS通用接口
+  - name: 查询类接口
+    description: 查询类接口
+  - name: 操作类接口
+    description: 操作类接口
+  - name: 提现类接口
+    description: 提现类接口
+  - name: 任意交易类接口
+    description: 任意交易类接口
 paths:
   /v1/waas/common/get_supported_chains:
     post:
       tags:
-      - WaaS通用接口
+        - WaaS通用接口
       summary: 查询系统支持链
       responses:
         200:
@@ -42,8 +42,8 @@ paths:
                     description: ""
                     items:
                       required:
-                      - chainName
-                      - chainSymbol
+                        - chainName
+                        - chainSymbol
                       type: object
                       properties:
                         chainName:
@@ -61,14 +61,14 @@ paths:
   /v1/waas/common/get_supported_coins:
     post:
       tags:
-      - WaaS通用接口
+        - WaaS通用接口
       summary: 链支持的币种列表
       requestBody:
         content:
           application/json:
             schema:
               required:
-              - chainSymbol
+                - chainSymbol
               type: object
               properties:
                 chainSymbol:
@@ -91,9 +91,9 @@ paths:
                     description: ""
                   data:
                     required:
-                    - assetDecimal
-                    - assetId
-                    - assetName
+                      - assetDecimal
+                      - assetId
+                      - assetName
                     type: object
                     properties:
                       assetName:
@@ -116,15 +116,15 @@ paths:
   /v1/waas/mpc/wallet/list_addresses:
     post:
       tags:
-      - MPC查询类接口
+        - 查询类接口
       summary: 查询链地址
       requestBody:
         content:
           application/json:
             schema:
               required:
-              - chainSymbol
-              - walletId
+                - chainSymbol
+                - walletId
               type: object
               properties:
                 pageIndex:
@@ -173,11 +173,11 @@ paths:
                         description: ""
                         items:
                           required:
-                          - address
-                          - encoding
-                          - hdPath
-                          - id
-                          - pubkey
+                            - address
+                            - encoding
+                            - hdPath
+                            - id
+                            - pubkey
                           type: object
                           properties:
                             id:
@@ -208,7 +208,7 @@ paths:
   /v1/waas/mpc/wallet/list_wallets:
     post:
       tags:
-      - MPC查询类接口
+        - 查询类接口
       summary: 查询钱包列表
       requestBody:
         content:
@@ -277,14 +277,14 @@ paths:
   /v1/waas/mpc/wallet/list_added_chains:
     post:
       tags:
-      - MPC查询类接口
+        - 查询类接口
       summary: 查询指定钱包下已添加地址的链及其首个地址信息
       requestBody:
         content:
           application/json:
             schema:
               required:
-              - walletId
+                - walletId
               type: object
               properties:
                 walletId:
@@ -310,8 +310,8 @@ paths:
                     description: ""
                     items:
                       required:
-                      - chainSymbol
-                      - firstAddressInfo
+                        - chainSymbol
+                        - firstAddressInfo
                       type: object
                       properties:
                         chainSymbol:
@@ -319,11 +319,11 @@ paths:
                           description: 链名称 简称 链标识
                         firstAddressInfo:
                           required:
-                          - address
-                          - encoding
-                          - hdPath
-                          - id
-                          - pubkey
+                            - address
+                            - encoding
+                            - hdPath
+                            - id
+                            - pubkey
                           type: object
                           properties:
                             id:
@@ -354,16 +354,16 @@ paths:
   /v1/waas/mpc/wallet/get_address_balance:
     post:
       tags:
-      - MPC查询类接口
+        - 查询类接口
       summary: 查询地址余额信息
       requestBody:
         content:
           application/json:
             schema:
               required:
-              - address
-              - assetId
-              - chainSymbol
+                - address
+                - assetId
+                - chainSymbol
               type: object
               properties:
                 chainSymbol:
@@ -395,9 +395,9 @@ paths:
                     description: ""
                     items:
                       required:
-                      - assetId
-                      - balance
-                      - chainSymbol
+                        - assetId
+                        - balance
+                        - chainSymbol
                       type: object
                       properties:
                         chainSymbol:
@@ -419,14 +419,14 @@ paths:
   /v1/waas/mpc/wallet/get_wallet_balance:
     post:
       tags:
-      - MPC查询类接口
+        - 查询类接口
       summary: 查询指定钱包所有币种的余额信息
       requestBody:
         content:
           application/json:
             schema:
               required:
-              - walletId
+                - walletId
               type: object
               properties:
                 walletId:
@@ -472,9 +472,9 @@ paths:
                         description: ""
                         items:
                           required:
-                          - assetId
-                          - balance
-                          - chainSymbol
+                            - assetId
+                            - balance
+                            - chainSymbol
                           type: object
                           properties:
                             chainSymbol:
@@ -494,18 +494,58 @@ paths:
                     type: string
                     description: ""
       x-codegen-request-body-name: root
+  /v1/waas/mpc/is_valid_address:
+    post:
+      tags:
+        - 查询类接口
+      summary: 检查币种地址是否正确
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - address
+                - assetId
+              type: object
+              properties:
+                assetId:
+                  type: string
+                  description: 币种代号 币标识
+                address:
+                  type: string
+                  description: 地址
+        required: false
+      responses:
+        200:
+          description: successful operation
+          content:
+            '*/*':
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type: string
+                  data:
+                    type: boolean
+                  success:
+                    type: boolean
+                  requestId:
+                    type: string
+      x-codegen-request-body-name: root
   /v1/waas/mpc/wallet/white_address_check:
     post:
       tags:
-      - MPC查询类接口
+        - 查询类接口
       summary: 白名单命中校验
       requestBody:
         content:
           application/json:
             schema:
               required:
-              - address
-              - assetId
+                - address
+                - assetId
               type: object
               properties:
                 address:
@@ -542,15 +582,15 @@ paths:
   /v1/waas/mpc/transaction/list_transactions:
     post:
       tags:
-      - MPC查询类接口
+        - 查询类接口
       summary: 交易列表
       requestBody:
         content:
           application/json:
             schema:
               required:
-              - address
-              - chainSymbol
+                - address
+                - chainSymbol
               type: object
               properties:
                 pageIndex:
@@ -793,14 +833,14 @@ paths:
   /v1/waas/mpc/transaction/transactions_by_request_ids:
     post:
       tags:
-      - MPC查询类接口
+        - 查询类接口
       summary: 根据request_id查询交易列表
       requestBody:
         content:
           application/json:
             schema:
               required:
-              - requestId
+                - requestId
               type: object
               properties:
                 requestId:
@@ -1007,14 +1047,14 @@ paths:
   /v1/waas/mpc/transaction/transactions_by_sinoId:
     post:
       tags:
-      - MPC查询类接口
+        - 查询类接口
       summary: 根据sinoId查询交易列表
       requestBody:
         content:
           application/json:
             schema:
               required:
-              - sinoId
+                - sinoId
               type: object
               properties:
                 sinoId:
@@ -1221,14 +1261,14 @@ paths:
   /v1/waas/mpc/transaction/transactions_by_tx_hash:
     post:
       tags:
-      - MPC查询类接口
+        - 查询类接口
       summary: 根据txHash查询交易列表
       requestBody:
         content:
           application/json:
             schema:
               required:
-              - txHash
+                - txHash
               type: object
               properties:
                 txHash:
@@ -1435,7 +1475,7 @@ paths:
   /v1/waas/mpc/tssnode/list_mpc_requests:
     post:
       tags:
-      - MPC查询类接口
+        - 查询类接口
       summary: 查询mpc协议执行记录
       requestBody:
         content:
@@ -1516,7 +1556,7 @@ paths:
   /v1/waas/mpc/tssnode/status:
     post:
       tags:
-      - MPC查询类接口
+        - 查询类接口
       summary: 查询tss node状态
       responses:
         200:
@@ -1552,7 +1592,7 @@ paths:
   /v1/waas/mpc/create_wallets:
     post:
       tags:
-      - MPC操作类接口
+        - 操作类接口
       summary: 创建钱包
       requestBody:
         content:
@@ -1620,15 +1660,15 @@ paths:
   /v1/waas/mpc/wallet/generate_chain_addresses:
     post:
       tags:
-      - MPC操作类接口
+        - 操作类接口
       summary: 生成链地址
       requestBody:
         content:
           application/json:
             schema:
               required:
-              - chainSymbol
-              - walletId
+                - chainSymbol
+                - walletId
               type: object
               properties:
                 walletId:
@@ -1660,11 +1700,11 @@ paths:
                     description: ""
                     items:
                       required:
-                      - address
-                      - encoding
-                      - hdPath
-                      - id
-                      - pubkey
+                        - address
+                        - encoding
+                        - hdPath
+                        - id
+                        - pubkey
                       type: object
                       properties:
                         id:
@@ -1694,7 +1734,7 @@ paths:
   /v1/waas/mpc/wallet/advance/gen_address_by_path:
     post:
       tags:
-      - MPC操作类接口
+        - 操作类接口
       summary: 根据指定的路径创建地址
       description: <p> 直接对指定数据进行签名。此接口为高级功能接口，需要钱包组 以及 钱包 均开启“高级功能” 才可用 </>
       requestBody:
@@ -1702,10 +1742,10 @@ paths:
           application/json:
             schema:
               required:
-              - algorithmType
-              - coinType
-              - index
-              - walletId
+                - algorithmType
+                - coinType
+                - index
+                - walletId
               type: object
               properties:
                 index:
@@ -1739,11 +1779,11 @@ paths:
                     description: ""
                   data:
                     required:
-                    - address
-                    - encoding
-                    - hdPath
-                    - id
-                    - pubkey
+                      - address
+                      - encoding
+                      - hdPath
+                      - id
+                      - pubkey
                     type: object
                     properties:
                       id:
@@ -1774,15 +1814,15 @@ paths:
   /v1/waas/mpc/wallet/advance/update_wallet:
     post:
       tags:
-      - MPC操作类接口
+        - 操作类接口
       summary: 更新钱包属性（高级功能开启、关闭）
       requestBody:
         content:
           application/json:
             schema:
               required:
-              - advancedEnabled
-              - walletId
+                - advancedEnabled
+                - walletId
               type: object
               properties:
                 walletId:
@@ -1819,16 +1859,16 @@ paths:
   /v1/waas/mpc/transaction/cancel_transaction:
     post:
       tags:
-      - MPC提现类接口
+        - 提现类接口
       summary: 交易取消
       requestBody:
         content:
           application/json:
             schema:
               required:
-              - assetId
-              - chainSymbol
-              - requestId
+                - assetId
+                - chainSymbol
+                - requestId
               type: object
               properties:
                 requestId:
@@ -1993,19 +2033,19 @@ paths:
   /v1/waas/mpc/transaction/speedup_transaction:
     post:
       tags:
-      - MPC提现类接口
+        - 提现类接口
       summary: 发起加速交易
       requestBody:
         content:
           application/json:
             schema:
               required:
-              - assetId
-              - chainSymbol
-              - fee
-              - gasLimit
-              - gasPrice
-              - requestId
+                - assetId
+                - chainSymbol
+                - fee
+                - gasLimit
+                - gasPrice
+                - requestId
               type: object
               properties:
                 requestId:
@@ -2179,22 +2219,22 @@ paths:
   /v1/waas/mpc/transaction/create_transfer:
     post:
       tags:
-      - MPC提现类接口
+        - 提现类接口
       summary: 发起转账交易
       requestBody:
         content:
           application/json:
             schema:
               required:
-              - amount
-              - assetId
-              - chainSymbol
-              - fee
-              - from
-              - gasLimit
-              - gasPrice
-              - requestId
-              - to
+                - amount
+                - assetId
+                - chainSymbol
+                - fee
+                - from
+                - gasLimit
+                - gasPrice
+                - requestId
+                - to
               type: object
               properties:
                 walletId:
@@ -2383,23 +2423,23 @@ paths:
   /v1/waas/mpc/transaction/create_transaction:
     post:
       tags:
-      - MPC任意交易类接口
+        - 任意交易类接口
       summary: 发起任意交易
       requestBody:
         content:
           application/json:
             schema:
               required:
-              - amount
-              - assetId
-              - chainSymbol
-              - fee
-              - from
-              - gasLimit
-              - gasPrice
-              - requestId
-              - to
-              - txinfo
+                - amount
+                - assetId
+                - chainSymbol
+                - fee
+                - from
+                - gasLimit
+                - gasPrice
+                - requestId
+                - to
+                - txinfo
               type: object
               properties:
                 walletId:
@@ -2591,7 +2631,7 @@ paths:
   /v1/waas/mpc/wallet/advance/sign_raw_data:
     post:
       tags:
-      - MPC任意交易类接口
+        - 任意交易类接口
       summary: 原始数据签名
       description: <p>对原始数据进行签名</>
       requestBody:
@@ -2599,10 +2639,10 @@ paths:
           application/json:
             schema:
               required:
-              - hdPath
-              - rawData
-              - requestId
-              - walletId
+                - hdPath
+                - rawData
+                - requestId
+                - walletId
               type: object
               properties:
                 rawData:
@@ -2649,19 +2689,19 @@ paths:
   /v1/waas/mpc/web3/sign_message:
     post:
       tags:
-      - MPC任意交易类接口
+        - 任意交易类接口
       summary: 按已知的规范签名消息（EIP-191、 EIP-712）
       requestBody:
         content:
           application/json:
             schema:
               required:
-              - assetId
-              - chainSymbol
-              - hdPath
-              - messageHash
-              - requestId
-              - signAlgorithm
+                - assetId
+                - chainSymbol
+                - hdPath
+                - messageHash
+                - requestId
+                - signAlgorithm
               type: object
               properties:
                 requestId:

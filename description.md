@@ -166,12 +166,12 @@ signature：对应请求头（BIZ-API-SIGNATURE）。
 ## 完整示例
 GET请求：
 | Method | URL |
-| :--- | ---: |
+| :--- | :--- |
 | GET | https://api.develop.sinohope.com/v1/test?username=username&password=password |
 
 参数：
 | Parameter | Value |
-| :--- | ---: |
+| :--- | :--- |
 | username | username |
 | password | password |
 
@@ -181,7 +181,7 @@ datapassword=password&username=usernamepath/v1/testtimestamp1690959799750version
 ```
 POST请求：
 | Method | URL |
-| :--- | ---: |
+| :--- | :--- |
 | POST | https://api.develop.sinohope.com/v1/test |
 
 参数：
@@ -198,7 +198,7 @@ data{"username":"username","password":"password"}path/v1/testtimestamp1690961714
 # 返回值说明
 ## 统一返回值
 | 代码 | 说明 |
-| :-- |---------------:|
+| :-- |:---------------|
 | code | 状态返回代码（成功返回200） |
 | msg | 状态返回描述 |
 | data | 响应的数据 |
