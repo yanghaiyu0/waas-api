@@ -424,7 +424,7 @@ paths:
               type: object
               properties:
                 walletId:
-                  type: integer
+                  type: string
                   description: 钱包id
                 pageIndex:
                   type: integer
