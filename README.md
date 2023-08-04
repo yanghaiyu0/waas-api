@@ -1,1 +1,1 @@
-# API Moved to [OpenLoop](https://sinohope.github.io/openloop/index.html)
+# API Moved to [waas-api](https://sinohope.github.io/waas-api/)
