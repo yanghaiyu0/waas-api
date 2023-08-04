@@ -1,0 +1,59 @@
+{
+  "theme": {
+    "colors": {
+      "primary": {
+        "main": "rgba(52, 152, 219, 1)",
+        "light": "rgba(52, 152, 219, 0.42)"
+      },
+      "success": {
+        "main": "rgba(46, 204, 113, 1)",
+        "light": "#a8df97",
+        "dark": "#0e4d2c",
+        "contrastText": "#000"
+      },
+      "text": {
+        "primary": "rgba(0, 0, 0, 1)",
+        "secondary": "#4d4d4d"
+      },
+      "http": {
+        "get": "rgba(52, 152, 219, 1)",
+        "post": "rgba(46, 204, 113, 1)",
+        "put": "rgba(230, 126, 34, 1)",
+        "delete": "rgba(231, 76, 60, 1)"
+      }
+    },
+    "typography": {
+      "fontSize": "16px",
+      "fontFamily": "Fira Sans, Roboto, sans-serif",
+      "optimizeSpeed": true,
+      "smoothing": "antialiased",
+      "headings": {
+        "fontWeight": "bold",
+        "lineHeight": "1em"
+      },
+      "code": {
+        "fontWeight": "600",
+        "color": "rgba(44, 62, 80, 1)",
+        "wrap": true
+      },
+      "links": {
+        "color": "rgba(52, 152, 219, 1)",
+        "visited": "rgba(52, 152, 219, 1)",
+        "hover": "#74b3d8"
+      }
+    },
+    "sidebar": {
+      "backgroundColor": "#34495e",
+      "textColor": "#ffffff",
+      "width": "350px"
+    },
+    "mainPanel": {
+      "backgroundColor": "#ffffff",
+      "textColor": "#2c3e50"
+    },
+    "rightPanel": {
+      "backgroundColor": "#3a539b",
+      "textColor": "#ffffff"
+    }
+  }
+}
