@@ -272,6 +272,14 @@ paths:
       tags:
         - 高级属性
       summary: 更新钱包属性（高级功能开启、关闭）
+      x-codeSamples:
+        - lang: 'cURL'
+          label: 'CLI'
+          source: |
+            curl --request POST \
+            --url 'https://data.apiexample.com/api/example/batch_query/json?format=json' \
+            --header 'content-type: application/octet-stream: ' \
+            --data '{}'
       requestBody:
         content:
           application/json:
@@ -286,11 +294,13 @@ paths:
                   description: |-
                     钱包id
                     <p> 当指定了以后就是根据钱包开关,否则就是金库级别 <p/>
+                  example: 876667267888
                 advancedEnabled:
                   type: integer
                   description: |-
                     高级功能开关 (关：0，开：1)
                     <p> 开了以后支持的功能: 根据指定的路径创建地址 ,原始数据签名 <p/>
+                  example: 1
         required: false
       responses:
         200:

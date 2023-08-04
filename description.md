@@ -1,15 +1,16 @@
-# 文档变更记录
+# 关于Sinohope WaaS API
+## 概述
 
-Changes log, dates are displayed in UTC, shows in a reverse order.
+Sinohope 使用基于P-256曲线（又名prime256v1或secp256r1）和算法为SHA256withECDSA的 ECDSA 签名方案进行验证，您在 Sinnohope 开通账户以后，可以在您本地生成公私钥对,参考该URL下Sinnohope提供的例程：<https://github.com/sinohope/sinohope-java-api>，如有任何疑问，也可以联系我们的工作人员协助您。
 
-### v0.9.0
-> 2023/08/04 by Sinohope
+您可以通过 Sinnohope Web 管理界面录入您的公钥 API Key （可选择类型：查询；所有）。 API Secret 请您自己妥善保管，不要透露给任何人，避免资产损失！ Sinnohope 强烈建议您绑定您的IP地址白名单以及启用“API回调”中的提现确认。
 
--  add sinohope WaaS Api Document
+Sinnohope 的 API 请求，除公开的 API 外都需要携带 API Key 以及签名，请注意: Sinohope POST接口仅支持JSON数据格式。
 
-First version
 
-# 术语定义
+## 术语定义
+#### sinoid
+指令下发时平台生成的唯一id
 <!-- 
 # Main Steps
 
@@ -32,14 +33,19 @@ First version
 ![](./images/withdraw.png)
 
 -->
-# 关于Sinohope WaaS API
-## 概述
 
-Sinohope 使用基于P-256曲线（又名prime256v1或secp256r1）和算法为SHA256withECDSA的 ECDSA 签名方案进行验证，您在 Sinnohope 开通账户以后，可以在您本地生成公私钥对,参考该URL下Sinnohope提供的例程：<https://github.com/sinohope/sinohope-java-api>，如有任何疑问，也可以联系我们的工作人员协助您。
+## 文档变更记录
 
-您可以通过 Sinnohope Web 管理界面录入您的公钥 API Key （可选择类型：查询；所有）。 API Secret 请您自己妥善保管，不要透露给任何人，避免资产损失！ Sinnohope 强烈建议您绑定您的IP地址白名单以及启用“API回调”中的提现确认。
+Changes log, dates are displayed in UTC, shows in a reverse order.
 
-Sinnohope 的 API 请求，除公开的 API 外都需要携带 API Key 以及签名，请注意: Sinohope POST接口仅支持JSON数据格式。
+### v0.9.0
+> 2023/08/04 by Sinohope
+
+-  add sinohope WaaS Api Document
+
+First version
+
+
 
 # 签名认证
 
